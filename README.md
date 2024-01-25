@@ -1,7 +1,7 @@
 # SAE - Jeu
 - Minet Lorik
 - David Pauline
-- Cailliau Ethan
+- Cailliau Ethann
 - Pruvost Simon
 
 
