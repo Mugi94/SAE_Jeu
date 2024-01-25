@@ -33,28 +33,27 @@ class Aurore(Personnage):
         """
         return round(self._attaque + (self._attaque/2))
     
-    def CapaciteSpeciale(plateau: Plateau, pers: Aurore, etape: int) -> int:
+    def CapaciteSpeciale(self: Aurore, plateau: Plateau, etape: int) -> int:
         """
-    Renvoie les degats de la capacité du personnage Aurore
-    :param plateau: (Plateau)
-    :param pers: (Aurore)
-    :param etape: (int)
-    :return: (int)
-    """
-    degats: int = pers.lanceCapacite()
+        Renvoie les degats de la capacité du personnage Aurore
+        :param plateau: (Plateau)
+        :param etape: (int)
+        :return: (int)
+        """
+        degats: int = self.lanceCapacite()
 
-    # Vérification bonus de case
-    if plateau.getCase(pers.getCaseNum()).getType() == 'B':
-        degats += 3
-    elif plateau.getCase(pers.getCaseNum()).getType() == 'M':
-        degats -= 3
-    
-    # Verification bonus de lieu
-    if pers.getType() == etape:
-        degats += 2
-    elif pers.getInverseType() == etape:
-        degats -= 2
+        # Vérification bonus de case
+        if plateau.getCase(self.getCaseNum()).getType() == 'B':
+            degats += 3
+        elif plateau.getCase(self.getCaseNum()).getType() == 'M':
+            degats -= 3
 
-    # Verification degat minimal
-    degats = degats if degats > 1 else 1 
-    return degats
+        # Verification bonus de lieu
+        if self.getType() == etape:
+            degats += 2
+        elif self.getInverseType() == etape:
+            degats -= 2
+
+        # Verification degat minimal
+        degats = degats if degats > 1 else 1 
+        return degats

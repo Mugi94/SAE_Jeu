@@ -430,9 +430,6 @@ def menuFinPartie(gagne: bool) -> tuple[Bouton, Bouton]:
 def lanceDe() -> int: return randint(1,6)
 
 
-def lauraCapacite(plateau: Plateau, pers: Laura):
-    mouse_pos = pygame.mouse.get_pos()
-
 def attaqueCase(case: list[Personnage], ennemi: Ennemi, degat: int) -> None:
     """
     Attaque une case contenant un personnage.
@@ -450,118 +447,7 @@ def attaqueCase(case: list[Personnage], ennemi: Ennemi, degat: int) -> None:
         else: # Sinon attaquer le personnage
             perso.recevoirCoup(degat)
 
-def boss1Attaque(plateau: Plateau, ennemi: Ennemi) -> tuple[Plateau, Ennemi]:
-    """
-    Attaque une case contenant un personnage.
-    :param plateau: (Plateau)
-    :param ennemi: (Ennemi)
-    :return: (tuple) le plateau et ennemi apres attaque
-    :effet de bord: modifie les personnages plateau et l'ennemi optionnellement
-    """
-    # Degat envoyé sur un personnage
-    degat: int = ennemi.lanceAttaque()
-    perso_cible: Personnage = choice(plateau.getPersosPlateau())
-    case_perso_cible: list[Personnage] = plateau.getPersosCase(perso_cible.getCaseNum())
-    
-    # Attaquer la case du personnage cible
-    attaqueCase(case_perso_cible, ennemi, degat)
-    
-    return plateau, ennemi
 
-def boss2Attaque(plateau: Plateau, ennemi: Ennemi) -> tuple[Plateau, Ennemi]:
-    """
-    Attaque une case contenant un personnage et 5 cases au hasard.
-    :param plateau: (Plateau)
-    :param ennemi: (Ennemi)
-    :return: (tuple) le plateau et ennemi apres attaque
-    :effet de bord: modifie les personnages plateau et l'ennemi optionnellement
-    """
-    # Degat envoyé sur un personnage
-    degat: int = ennemi.lanceAttaque()
-    perso_cible: Personnage = choice(plateau.getPersosPlateau())
-    case_perso_cible: list[Personnage] = plateau.getPersosCase(perso_cible.getCaseNum())
-    
-    # Attaquer la case du personnage cible
-    attaqueCase(case_perso_cible, ennemi, degat)
-
-    # Attaquer 5 cases au hasard
-    for _ in range(4):
-        # Récuperer une case au hasard
-        num_case = randint(1, plateau.TAILLE)
-        case = plateau.getCase(num_case)
-
-        # Si la case contient des personnages et que le personnage cible n'est pas présent
-        if case.getPersonnages() != []:
-            if not perso_cible in case.getPersonnages():
-                # Attaquer la case
-                attaqueCase(case.getPersonnages(), ennemi, degat)
-
-    return plateau, ennemi
-
-def boss3Attaque(plateau: Plateau, ennemi: Ennemi) -> tuple[Plateau, Ennemi]:
-    """
-    Attaque une case contenant un personnage et les cases a coté.
-    :param plateau: (Plateau)
-    :param ennemi: (Ennemi)
-    :return: (tuple) le plateau et ennemi apres attaque
-    :effet de bord: modifie les personnages plateau et l'ennemi optionnellement
-    """
-    # Degat envoyé sur un personnage
-    degat: int = ennemi.lanceAttaque()
-    perso_cible: Personnage = choice(plateau.getPersosPlateau())
-    
-    # Attaquer la case du personnage cible
-    attaqueCase(plateau.getPersosCase(perso_cible.getCaseNum()), ennemi, degat)
-    
-    # Attaque la case de devant
-    # Vérification case suivante dans le plateau
-    if (perso_cible.getCaseNum() + 1) <= plateau.TAILLE:
-        attaqueCase(plateau.getPersosCase(perso_cible.getCaseNum() + 1), ennemi, degat)
-    else: # Sinon on reviens a la case 1
-        attaqueCase(plateau.getPersosCase(1), ennemi, degat)
-    
-    # Attaque la case de derriere
-    # Vérification case derriere dans le plateau
-    if (perso_cible.getCaseNum() - 1) >= 1:
-        attaqueCase(plateau.getPersosCase(perso_cible.getCaseNum() - 1), ennemi, degat)
-    else: # Sinon on est a la case 16
-        attaqueCase(plateau.getPersosCase(16), ennemi, degat)
-    
-    return plateau, ennemi
-
-def boss4Attaque(plateau: Plateau, ennemi: Ennemi) -> tuple[Plateau, Ennemi]:
-    """
-    Attaque une case contenant un personnage cible et la case des autres personnages avec les dégats réduits.
-    :param plateau: (Plateau)
-    :param ennemi: (Ennemi)
-    :return: (tuple) le plateau et ennemi apres attaque
-    :effet de bord: modifie les personnages plateau et l'ennemi optionnellement
-    """
-    # Degat envoyé sur un personnage
-    degat: int = ennemi.lanceAttaque()
-    perso_cible: Personnage = choice(plateau.getPersosPlateau())
-    case_perso_cible: list[Personnage] = plateau.getPersosCase(perso_cible.getCaseNum())
-    
-    # Liste des cases deja attaque
-    num_cases_attaque: list[int] = [perso_cible.getCaseNum()]
-    
-    # Attaque la case du personnage cible
-    attaqueCase(case_perso_cible, ennemi, degat)
-
-    # Pour les autres personnages du plateau
-    for perso in plateau.getPersosPlateau():
-        if not isinstance(perso, type(perso_cible)):
-            
-            # Si la case n'a pas deja été attaqué
-            if perso.getCaseNum() not in num_cases_attaque:
-                num_cases_attaque.append(perso.getCaseNum())
-                
-                # Vérification que l'ennemi ne recoie pas des coup renvoyé
-                if isinstance(perso, Bob):
-                    ennemi.recevoirCoup(perso.recevoirCoup(round(degat*0.3)))
-                else: perso.recevoirCoup(round(degat*0.3))
-
-    return plateau, ennemi
 
 def persoAJouer(pers: Personnage) -> None:
     """
@@ -692,16 +578,16 @@ def play() -> None:
         # Ennemi lance attaque si tout les joueurs ont joué
         if (perso_actif_indice == len(liste_perso_actif) - 1) and (perso_actif.aJouer) and not (ennemi_actuel.getPV() <= 0):
             if isinstance(ennemi_actuel, Boss1):
-                plateau, ennemi_actuel = boss1Attaque(plateau, ennemi_actuel)
+                plateau, ennemi_actuel = liste_ennemis[0].AttaqueSpeciale(plateau, ennemi_actuel)
             
             if isinstance(ennemi_actuel, Boss2):
-                plateau, ennemi_actuel = boss2Attaque(plateau, ennemi_actuel)
+                plateau, ennemi_actuel = liste_ennemis[1].AttaqueSpeciale(plateau, ennemi_actuel)
                 
             if isinstance(ennemi_actuel, Boss3):
-                plateau, ennemi_actuel = boss3Attaque(plateau, ennemi_actuel)
+                plateau, ennemi_actuel = liste_ennemis[2].AttaqueSpeciale(plateau, ennemi_actuel)
                 
             if isinstance(ennemi_actuel, Boss4):
-                plateau, ennemi_actuel = boss4Attaque(plateau, ennemi_actuel)
+                plateau, ennemi_actuel = liste_ennemis[3].AttaqueSpeciale(plateau, ennemi_actuel)
 
             
             # Apres attaque boss, verification si perso sans vie
@@ -790,7 +676,7 @@ def play() -> None:
 
                         # Aurore (Attaque plus puissante)
                         if isinstance(perso_actif, Aurore):                            
-                            degats_aurore = auroreCapacite(plateau, perso_actif, etape)
+                            degats_aurore = aurore.CapaciteSpeciale(plateau, perso_actif, etape)
                             ennemi_actuel.recevoirCoup(degats_aurore) ; perso_actif.aJouer = True
                             
                         # Akane (Reduction degat)

@@ -1,4 +1,8 @@
 from ennemi import Ennemi
+from main import attaqueCase
+from personnage import Personnage
+from plateau import Plateau
+from random import choice
 
 
 class Boss3(Ennemi):
@@ -22,3 +26,34 @@ class Boss3(Ennemi):
         :return: (int)
         """
         return self._attaque
+
+    def AttaqueSpeciale(plateau: Plateau, ennemi: Ennemi) -> tuple[Plateau, Ennemi]:
+        """
+        Attaque une case contenant un personnage et les cases a coté.
+        :param plateau: (Plateau)
+        :param ennemi: (Ennemi)
+        :return: (tuple) le plateau et ennemi apres attaque
+        :effet de bord: modifie les personnages plateau et l'ennemi optionnellement
+        """
+        # Degat envoyé sur un personnage
+        degat: int = ennemi.lanceAttaque()
+        perso_cible: Personnage = choice(plateau.getPersosPlateau())
+        
+        # Attaquer la case du personnage cible
+        attaqueCase(plateau.getPersosCase(perso_cible.getCaseNum()), ennemi, degat)
+        
+        # Attaque la case de devant
+        # Vérification case suivante dans le plateau
+        if (perso_cible.getCaseNum() + 1) <= plateau.TAILLE:
+            attaqueCase(plateau.getPersosCase(perso_cible.getCaseNum() + 1), ennemi, degat)
+        else: # Sinon on reviens a la case 1
+            attaqueCase(plateau.getPersosCase(1), ennemi, degat)
+        
+        # Attaque la case de derriere
+        # Vérification case derriere dans le plateau
+        if (perso_cible.getCaseNum() - 1) >= 1:
+            attaqueCase(plateau.getPersosCase(perso_cible.getCaseNum() - 1), ennemi, degat)
+        else: # Sinon on est a la case 16
+            attaqueCase(plateau.getPersosCase(16), ennemi, degat)
+        
+        return plateau, ennemi
