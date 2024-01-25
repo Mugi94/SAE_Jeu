@@ -18,6 +18,15 @@ import os
 from bouton import Bouton
 from plateau import Plateau
 from personnage import *
+from ennemi import Ennemi
+from characters.ennemi.boss1 import Boss1
+from characters.ennemi.boss2 import Boss2
+from characters.ennemi.boss3 import Boss3
+from characters.ennemi.boss4 import Boss4
+from characters.akane import Akane
+from characters.aurore import Aurore
+from characters.bob import Bob
+from characters.laura import Laura
 
 # Chemin du répertoire courant
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -420,34 +429,6 @@ def menuFinPartie(gagne: bool) -> tuple[Bouton, Bouton]:
 
 def lanceDe() -> int: return randint(1,6)
 
-def auroreCapacite(plateau: Plateau, pers: Aurore, etape: int) -> int:
-    """
-    Renvoie les degats de la capacité du personnage Aurore
-    :param plateau: (Plateau)
-    :param pers: (Aurore)
-    :param etape: (int)
-    :return: (int)
-    """
-    degats: int = pers.lanceCapacite()
-
-    # Vérification bonus de case
-    if plateau.getCase(pers.getCaseNum()).getType() == 'B':
-        degats += 3
-    elif plateau.getCase(pers.getCaseNum()).getType() == 'M':
-        degats -= 3
-    
-    # Verification bonus de lieu
-    if pers.getType() == etape:
-        degats += 2
-    elif pers.getInverseType() == etape:
-        degats -= 2
-
-    # Verification degat minimal
-    degats = degats if degats > 1 else 1 
-    return degats
-
-def akaneCapacite():
-    pass
 
 def lauraCapacite(plateau: Plateau, pers: Laura):
     mouse_pos = pygame.mouse.get_pos()
