@@ -18,6 +18,15 @@ import os
 from bouton import Bouton
 from plateau import Plateau
 from personnage import *
+from ennemi import *
+from characters.aurore import Aurore
+from characters.akane import Akane
+from characters.laura import Laura
+from characters.bob import Bob
+from characters.ennemi.boss1 import Boss1
+from characters.ennemi.boss2 import Boss2
+from characters.ennemi.boss3 import Boss3
+from characters.ennemi.boss4 import Boss4
 
 # Chemin du répertoire courant
 PATH = os.path.dirname(os.path.abspath(__file__))
