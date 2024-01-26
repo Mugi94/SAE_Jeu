@@ -1,6 +1,7 @@
 # ------------------
 # Personnage Aurore
 # ------------------
+from os import path
 from personnage import Personnage
 from plateau import Plateau
 
@@ -9,7 +10,7 @@ class Aurore(Personnage):
     """Classe Aurore, sous classe de Personnage"""
 
     # Constructeur
-    def __init__(self: Aurore):
+    def __init__(self):
         """
         Constructeur de la classe Aurore, initialise les attributs.
         :param self: (Aurore)
@@ -21,11 +22,11 @@ class Aurore(Personnage):
         self._defense = 6
         self._typePers = 2
         self._typeInversePers = 3
-        self._carte = f"{PATH}/img/personnages/aurore/aurorecarte.png"
-        self._img = f"{PATH}/img/personnages/aurore/auroreimg.png"
+        self._carte = f"{path}/img/personnages/aurore/aurorecarte.png"
+        self._img = f"{path}/img/personnages/aurore/auroreimg.png"
 
     # -------------Méthodes-------------
-    def lanceCapacite(self: Aurore) -> int:
+    def lanceCapacite(self) -> int:
         """
         Renvoie les dégâts envoyé de la compétence du personnage.
         :param self: (Aurore)
@@ -33,7 +34,7 @@ class Aurore(Personnage):
         """
         return round(self._attaque + (self._attaque/2))
     
-    def CapaciteSpeciale(self: Aurore, plateau: Plateau, etape: int) -> int:
+    def CapaciteSpeciale(self, plateau: Plateau, etape: int) -> int:
         """
         Renvoie les degats de la capacité du personnage Aurore
         :param plateau: (Plateau)

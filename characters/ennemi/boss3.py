@@ -1,5 +1,5 @@
 from ennemi import Ennemi
-from main import attaqueCase
+from os import path
 from personnage import Personnage
 from plateau import Plateau
 from random import choice
@@ -9,7 +9,7 @@ class Boss3(Ennemi):
     """Class Boss3, le premier Ennemi"""
 
     # Constructeur
-    def __init__(self: Boss3):
+    def __init__(self):
         """
         Constructeur de la classe Boss3, déclare les attributs.
         :param self: (Boss3)
@@ -17,9 +17,9 @@ class Boss3(Ennemi):
         """
         super().__init__()
         self._PV = 350
-        self._img = f"{PATH}/img/ennemi/boss3.png"
+        self._img = f"{path}/img/ennemi/boss3.png"
 
-    def lanceAttaque(self: Boss3) -> int:
+    def lanceAttaque(self) -> int:
         """
         Lance une attaque propre au Boss3
         :param self: (Boss3)
@@ -35,6 +35,8 @@ class Boss3(Ennemi):
         :return: (tuple) le plateau et ennemi apres attaque
         :effet de bord: modifie les personnages plateau et l'ennemi optionnellement
         """
+        from main import attaqueCase
+        
         # Degat envoyé sur un personnage
         degat: int = ennemi.lanceAttaque()
         perso_cible: Personnage = choice(plateau.getPersosPlateau())

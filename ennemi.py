@@ -4,7 +4,7 @@
 class Ennemi:
     """Classe Ennemi"""
 
-    def __init__(self: Ennemi):
+    def __init__(self):
         """
         Constructeur de la classe Ennemi, déclare les attributs.
         :param self: (Ennemi)
@@ -15,7 +15,7 @@ class Ennemi:
         self._defense: int = 10
         self._img: str
 
-    def getPV(self: Ennemi) -> int:
+    def getPV(self) -> int:
         """
         Renvoie les points de vie d'un ennemi.
         :param self: (Ennemi)
@@ -23,7 +23,7 @@ class Ennemi:
         """
         return self._PV
 
-    def getATK(self: Ennemi) -> int:
+    def getATK(self) -> int:
         """
         Renvoie l'attaque d'un ennemi.
         :param self: (Ennemi)
@@ -31,7 +31,7 @@ class Ennemi:
         """
         return self._attaque
 
-    def getImg(self: Ennemi) -> str:
+    def getImg(self) -> str:
         """
         Renvoie le chemin de l'image d'un ennemi.
         :param self: (Ennemi)
@@ -39,7 +39,7 @@ class Ennemi:
         """
         return self._img
 
-    def recevoirCoup(self: Ennemi, dgts: int) -> None:
+    def recevoirCoup(self, dgts: int) -> None:
         """
         Recoie un coup selon les degats subits.
         :param self: (Ennemi)
