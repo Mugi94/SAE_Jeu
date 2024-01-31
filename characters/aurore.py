@@ -1,60 +1,25 @@
-# ------------------
-# Personnage Aurore
-# ------------------
-from os import path
+# ---------------
+# Importations
+# ---------------
+from __future__ import annotations
 from personnage import Personnage
-from plateau import Plateau
+from capacite import Decharge
 
 
 class Aurore(Personnage):
-    """Classe Aurore, sous classe de Personnage"""
 
-    # Constructeur
     def __init__(self):
-        """
-        Constructeur de la classe Aurore, initialise les attributs.
-        :param self: (Aurore)
-        :return: (None)
-        """
-        super().__init__()
-        self._nom = "Aurore Thercieux"
-        self._attaque = 10
-        self._defense = 6
-        self._typePers = 2
-        self._typeInversePers = 3
-        self._carte = f"{path}/img/personnages/aurore/aurorecarte.png"
-        self._img = f"{path}/img/personnages/aurore/auroreimg.png"
+        super().__init__("Aurore Thercieux", "Attaque",
+                         100, 100, 10, 6,
+                         {"haute": [2], "faible": [3]},
+                         Decharge(),
+                         {"carte": "carte.png", "icone": "icone.png"})
 
-    # -------------Méthodes-------------
-    def lanceCapacite(self) -> int:
-        """
-        Renvoie les dégâts envoyé de la compétence du personnage.
-        :param self: (Aurore)
-        :return: (int)
-        """
-        return round(self._attaque + (self._attaque/2))
-    
-    def CapaciteSpeciale(self, plateau: Plateau, etape: int) -> int:
-        """
-        Renvoie les degats de la capacité du personnage Aurore
-        :param plateau: (Plateau)
-        :param etape: (int)
-        :return: (int)
-        """
-        degats: int = self.lanceCapacite()
+    def lancerAttaque(self, cible) -> None:
+        super().lancerAttaque(cible)
 
-        # Vérification bonus de case
-        if plateau.getCase(self.getCaseNum()).getType() == 'B':
-            degats += 3
-        elif plateau.getCase(self.getCaseNum()).getType() == 'M':
-            degats -= 3
+    def recevoirCoup(self, dgts) -> None:
+        super().recevoirCoup(dgts)
 
-        # Verification bonus de lieu
-        if self.getType() == etape:
-            degats += 2
-        elif self.getInverseType() == etape:
-            degats -= 2
-
-        # Verification degat minimal
-        degats = degats if degats > 1 else 1 
-        return degats
+    def lancerCapacite(self, cible):
+        self._capacite.utiliser(cible)

@@ -578,16 +578,16 @@ def play() -> None:
         # Ennemi lance attaque si tout les joueurs ont joué
         if (perso_actif_indice == len(liste_perso_actif) - 1) and (perso_actif.aJouer) and not (ennemi_actuel.getPV() <= 0):
             if isinstance(ennemi_actuel, Boss1):
-                plateau, ennemi_actuel = liste_ennemis[0].AttaqueSpeciale(plateau, ennemi_actuel)
+                liste_ennemis[0].AttaqueSpeciale(plateau, ennemi_actuel)
             
             if isinstance(ennemi_actuel, Boss2):
-                plateau, ennemi_actuel = liste_ennemis[1].AttaqueSpeciale(plateau, ennemi_actuel)
+                liste_ennemis[1].AttaqueSpeciale(plateau, ennemi_actuel)
                 
             if isinstance(ennemi_actuel, Boss3):
-                plateau, ennemi_actuel = liste_ennemis[2].AttaqueSpeciale(plateau, ennemi_actuel)
+                liste_ennemis[2].AttaqueSpeciale(plateau, ennemi_actuel)
                 
             if isinstance(ennemi_actuel, Boss4):
-                plateau, ennemi_actuel = liste_ennemis[3].AttaqueSpeciale(plateau, ennemi_actuel)
+                liste_ennemis[3].AttaqueSpeciale(plateau, ennemi_actuel)
 
             
             # Apres attaque boss, verification si perso sans vie

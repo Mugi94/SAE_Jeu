@@ -1,5 +1,4 @@
 from ennemi import Ennemi
-from os import path
 from personnage import Personnage
 from plateau import Plateau
 from random import choice
@@ -17,7 +16,7 @@ class Boss3(Ennemi):
         """
         super().__init__()
         self._PV = 350
-        self._img = f"{path}/img/ennemi/boss3.png"
+        self._img = "img/ennemi/boss3.png"
 
     def lanceAttaque(self) -> int:
         """

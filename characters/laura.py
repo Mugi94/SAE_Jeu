@@ -1,32 +1,25 @@
-# -----------------
-# Personnage Laura
-# -----------------
-from os import path
+# ---------------
+# Importations
+# ---------------
+from __future__ import annotations
 from personnage import Personnage
+from capacite import Soin
 
 
 class Laura(Personnage):
-    """Classe Laura, sous classe de Personnage"""
 
-    # Constructeur
     def __init__(self):
-        """
-        Constructeur de la classe Laura, initialise les attributs.
-        :param self: (Laura)
-        :return: (None)
-        """
-        super().__init__()
-        self._nom = "Laura Occideum"
-        self._attaque = 4
-        self._defense = 7
-        self._typePers = 3
-        self._typeInversePers = 1
-        self._carte = f"{path}/img/personnages/laura/lauracarte.png"
-        self._img = f"{path}/img/personnages/laura/lauraimg.png"
-        self.capacite: bool = False
+        super().__init__("Laura Occideum", "Support",
+                         100, 100, 4, 7,
+                         {"haute": [3], "faible": [1]},
+                         Soin(),
+                         {"carte": "carte.png", "icone": "icone.png"})
 
-    # -------------Méthodes-------------
-    def lanceCapacite(self, pers: Personnage) -> None:
-        pers._PV += 20
-        if pers.getPV() > 100:
-            pers._PV = 100
+    def lancerAttaque(self, cible) -> None:
+        super().lancerAttaque(cible)
+
+    def recevoirCoup(self, dgts) -> None:
+        super().recevoirCoup(dgts)
+
+    def lancerCapacite(self, cible):
+        self._capacite.utiliser(self, cible)
