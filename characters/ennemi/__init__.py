@@ -1,1 +1,1 @@
-from ...ennemi import Ennemi
+from .ennemi import Ennemi

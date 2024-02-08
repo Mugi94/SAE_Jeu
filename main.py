@@ -18,7 +18,7 @@ import os
 from bouton import Bouton
 from plateau import Plateau
 from personnage import *
-from ennemi import Ennemi
+from characters.ennemi.ennemi import Ennemi
 from characters.ennemi.boss1 import Boss1
 from characters.ennemi.boss2 import Boss2
 from characters.ennemi.boss3 import Boss3
@@ -27,6 +27,8 @@ from characters.akane import Akane
 from characters.aurore import Aurore
 from characters.bob import Bob
 from characters.laura import Laura
+from stats import Stats
+from menu.stats_menu import stats_menu
 
 # Chemin du répertoire courant
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -105,14 +107,6 @@ MENU_BOUTON_FONT = pygame.font.SysFont("Helvetic", 50)
 # --------------------------
 # Fonctions de jeu
 # --------------------------
-def checkForInput(rect: pygame.Rect, position: tuple[int,int]) -> bool:
-    """
-    Renvoie vrai si le bouton est survolé.
-    :param rect: (Rect)
-    :param position: (tuple) coordonnées de la forme (x,y)
-    :return: (bool)
-    """
-    return (position[0] in range(rect.left, rect.right)) and (position[1] in range(rect.top, rect.bottom))
 
 def affichePlateau(plateau: Plateau) -> None:
     """
@@ -865,10 +859,14 @@ def extra() -> None:
         pygame.display.update()
 
 
+
 # ------------Menu principal------------
 def main_menu() -> None:
     """Menu principal du jeu."""
     # Tant que l'on est dans l'écran d'accueil
+    
+    stats = Stats()
+    
     while True:
         # Positionnement de la souris
         menu_mouse_pos: tuple[int,int] = pygame.mouse.get_pos()
@@ -885,9 +883,11 @@ def main_menu() -> None:
         saves_bouton: Bouton = Bouton(MENU_BOUTON, (640, 400), "SAUVEGARDE", MENU_BOUTON_FONT, "black", "White")
         quit_bouton: Bouton = Bouton(MENU_BOUTON, (640, 550), "QUITTER", MENU_BOUTON_FONT, "black", "White")
         extra_bouton: Bouton = Bouton(None, (1050, 600), "EXTRA", MENU_BOUTON_FONT, "black", "White")
+        stats_bouton: Bouton = Bouton(
+            None, (1050, 300), "Statistiques".upper(), MENU_BOUTON_FONT, "black", "White")
         
         # Effet survol boutons
-        for button in [play_bouton, saves_bouton, quit_bouton, extra_bouton]:
+        for button in [play_bouton, saves_bouton, quit_bouton, extra_bouton, stats_bouton]:
             button.changeColor(menu_mouse_pos)
             button.update(screen)
             
@@ -900,13 +900,15 @@ def main_menu() -> None:
                 
             # Si on a cliqué quelque part avec la souris
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if checkForInput(play_bouton.rect, menu_mouse_pos):
+                if play_bouton.checkForInput(menu_mouse_pos):
                     play()
-                if checkForInput(saves_bouton.rect, menu_mouse_pos):
+                if saves_bouton.checkForInput(menu_mouse_pos):
                     sauvegarde()
-                if checkForInput(extra_bouton.rect, menu_mouse_pos):
+                if extra_bouton.checkForInput(menu_mouse_pos):
                     extra()
-                if checkForInput(quit_bouton.rect, menu_mouse_pos):
+                if stats_bouton.checkForInput(menu_mouse_pos):
+                    stats_menu(screen, stats)
+                if quit_bouton.checkForInput(menu_mouse_pos):
                     pygame.quit()
                     sys.exit()
 

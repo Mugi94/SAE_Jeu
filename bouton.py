@@ -89,3 +89,12 @@ class Bouton:
         # Sinon le texte est de la couleur d'origine
         else:
             self._text = self._font.render(self._text_input, True, self._color)
+            
+    def checkForInput(self, position: tuple[int,int]) -> bool:
+        """Renvoie vrai si le bouton est survolé.
+        :param rect: (Rect)
+        :param position: (tuple) coordonnées de la forme (x,y)
+        :return: (bool)
+        """
+        
+        return (position[0] in range(self._rect.left, self._rect.right)) and (position[1] in range(self._rect.top, self._rect.bottom))

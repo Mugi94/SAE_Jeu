@@ -1,4 +1,4 @@
-from ennemi import Ennemi
+from characters.ennemi.ennemi import Ennemi
 
 
 class Boss1(Ennemi):

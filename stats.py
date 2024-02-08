@@ -1,9 +1,8 @@
 class Stats:
     def __init__(self):
         self.score = 0
-        self.degats_total = 0 # C'est un attribut qui va servir à calculer les dégâts moyens
+        self.degats_totaux = 0 # C'est un attribut qui va servir à calculer les dégâts moyens
         self.degats_moyens = 0
-        self.degats_max = 0
         self.meilleur_personnage = None
         self.pire_personnage = None
         
@@ -14,7 +13,7 @@ class Stats:
         return {
             "score": self.score,
             "degats_moyens": self.degats_moyens,
-            "degats_max": self.degats_max,
+            "degats_totaux": self.degats_totaux,
             "meilleur_personnage": self.meilleur_personnage,
             "pire_personnage": self.pire_personnage
         }
@@ -27,8 +26,6 @@ class Stats:
     def setDegatsMoyens(self, degats_moyens):
         self.degats_moyens = degats_moyens
         
-    def setDegatsMax(self, degats_max):
-        self.degats_max = degats_max
         
     def calculDegatsMoyens(self, degats):
         self.degats_total += degats

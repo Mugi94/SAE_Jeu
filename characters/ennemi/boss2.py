@@ -1,5 +1,5 @@
 from random import choice, randint
-from ennemi import Ennemi
+from characters.ennemi.ennemi import Ennemi
 from personnage import Personnage
 from plateau import Plateau
 

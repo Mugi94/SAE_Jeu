@@ -1,6 +1,6 @@
 from random import choice
 from characters.bob import Bob
-from ennemi import Ennemi
+from characters.ennemi.ennemi import Ennemi
 from personnage import Personnage
 from plateau import Plateau
 
