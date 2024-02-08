@@ -25,6 +25,7 @@ def stats_menu(screen, stats) -> None:
 
         # Remplir le fond
         screen.blit(background, (0, 0))
+        
 
         # Titre menu
         game_title: pygame.Surface = title_font.render(
@@ -35,45 +36,56 @@ def stats_menu(screen, stats) -> None:
 
         # -----------------------------------------------------------------------------------------
         stats_text: pygame.Surface = title_font.render("Menu statistiques", True, "black")
-        stats_rect: pygame.Rect = stats_text.get_rect(center=(640, 260))
+        stats_rect: pygame.Rect = stats_text.get_rect(center=(640, 200))
         screen.blit(stats_text, stats_rect)
 
         # Boutons
-        stats_back = Bouton(None, (), 'Retour', text_font, 'black', 'white')
+        stats_back = Bouton(None, (640, 650), 'Retour', text_font, 'black', 'white')
         stats_back.changeColor(stats_mouse_pos)
         stats_back.update(screen)
         # -----------------------------------------------------------------------------------------
 
+        # Carré de stats (pour rendre plus lisible)
+        
+            # Créez une nouvelle surface de la taille du carré
+        square = pygame.Surface((600, 300))
+
+            # Remplissez la surface avec la couleur blanche
+        square.fill((255, 255, 255))
+
+            # Définissez le niveau d'opacité (alpha) de la surface
+            # Notez que 0 est complètement transparent et 255 est complètement opaque
+        square.set_alpha(128)
+
+            # Dessinez la surface sur l'écran à la position (400, 300)
+        screen.blit(square, (300, 300))
+
         # Gestion de l'affichage des statistiques
 
-        stats1_text: pygame.Surface = text_font.render(
-            "Statistiques globales", True, "black")
-        stats1_rect: pygame.Rect = stats1_text.get_rect(center=(640, 320))
-        screen.blit(stats1_text, stats1_rect)
 
         score_text: pygame.Surface = text_font.render(
-            f"Score: {stats['score']}", True, "black")
-        score_rect: pygame.Rect = score_text.get_rect(center=(640, 380))
+            ("Score :" + str(stats.getStats()['score'])), True, "black")
+        score_rect: pygame.Rect = score_text.get_rect(center=(640, 320))
         screen.blit(score_text, score_rect)
         
         degats_moyens_text: pygame.Surface = text_font.render(
-            f"Dégats moyens: {stats['degats_moyens']}", True, "black")
-        degats_moyens_rect: pygame.Rect = degats_moyens_text.get_rect(center=(640, 440))
+            ("Dégats moyens :" + str(stats.getStats()['degats_moyens'])), True, "black")
+        degats_moyens_rect: pygame.Rect = degats_moyens_text.get_rect(center=(640, 380))
         screen.blit(degats_moyens_text, degats_moyens_rect)
         
         degats_totaux_text: pygame.Surface = text_font.render(
-            f"Dégats totaux: {stats['degats_totaux']}", True, "black")
-        degats_totaux_rect: pygame.Rect = degats_totaux_text.get_rect(center=(640, 500))
+            ("Dégats totaux :" + str(stats.getStats()['degats_totaux'])), True, "black")
+        degats_totaux_rect: pygame.Rect = degats_totaux_text.get_rect(center=(640, 440))
         screen.blit(degats_totaux_text, degats_totaux_rect)
         
         meilleur_personnage_text: pygame.Surface = text_font.render(
-            f"Meilleur personnage: {stats['meilleur_personnage']}", True, "black")
-        meilleur_personnage_rect: pygame.Rect = meilleur_personnage_text.get_rect(center=(640, 560))
+            ("Meilleur personnage :" + str(stats.getStats()['meilleur_personnage'])), True, "black")
+        meilleur_personnage_rect: pygame.Rect = meilleur_personnage_text.get_rect(center=(640, 500))
         screen.blit(meilleur_personnage_text, meilleur_personnage_rect)
         
         pire_personnage_text: pygame.Surface = text_font.render(
-            f"Pire personnage: {stats['pire_personnage']}", True, "black")
-        pire_personnage_rect: pygame.Rect = pire_personnage_text.get_rect(center=(640, 620))
+            ("Pire personnage :" + str(stats.getStats()['pire_personnage'])), True, "black")
+        pire_personnage_rect: pygame.Rect = pire_personnage_text.get_rect(center=(640, 560))
         screen.blit(pire_personnage_text, pire_personnage_rect)
         
         # -----------------------------------------------------------------------------------------

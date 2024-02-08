@@ -18,6 +18,7 @@ class Stats:
             "pire_personnage": self.pire_personnage
         }
         
+        
     # Setters // Ça va être long et chiant
     
     def setScore(self, score):
