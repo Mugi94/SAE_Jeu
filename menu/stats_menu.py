@@ -6,15 +6,33 @@ import pygame
 #Screen resolution
 WIDTH, HEIGHT = 1280, 720
 
+def transparent_surface(screen: pygame.Surface):
+    # Carré transparent pour la visibilité des statistiques
+
+    # Créez une nouvelle surface de la taille du carré
+    square = pygame.Surface((WIDTH, HEIGHT))
+
+    # Remplissez la surface avec la couleur grise
+    square.fill((131, 131, 131))
+
+    # Définissez le niveau d'opacité (alpha) de la surface
+    # Notez que 0 est complètement transparent et 255 est complètement opaque
+    square.set_alpha(128)
+
+    # Dessinez la surface sur tout l'écran
+    screen.blit(square, (0, 0))
+    
+    return square
+
 
 
 # -------------Menu stats------------
 
 def stats_menu(screen, stats) -> None:
     "Menu statistiques globales du jeu acessible depuis le menu principal"
-    
+
     background = pygame.image.load("img/menu_principal.jpg")
-    title_font = pygame.font.Font("fonts/Democratica Bold.ttf", 75)
+    title_font = pygame.font.SysFont("Helvetic", 75)
     text_font = pygame.font.SysFont("Helvetic", 50)
     
     run = True
@@ -26,16 +44,18 @@ def stats_menu(screen, stats) -> None:
         # Remplir le fond
         screen.blit(background, (0, 0))
         
+        transparent_surface(screen)
 
         # Titre menu
         game_title: pygame.Surface = title_font.render(
-            "La Cité Academique", True, (255, 255, 255))
+            "La Cité Academique", True, "black")
         game_title_rect: pygame.Rect = game_title.get_rect(
             center=(WIDTH//2, 100))
         screen.blit(game_title, game_title_rect)
 
         # -----------------------------------------------------------------------------------------
-        stats_text: pygame.Surface = title_font.render("Menu statistiques", True, "black")
+        stats_text: pygame.Surface = title_font.render(
+            "Menu statistiques", True, "black")
         stats_rect: pygame.Rect = stats_text.get_rect(center=(640, 200))
         screen.blit(stats_text, stats_rect)
 
@@ -45,20 +65,6 @@ def stats_menu(screen, stats) -> None:
         stats_back.update(screen)
         # -----------------------------------------------------------------------------------------
 
-        # Carré de stats (pour rendre plus lisible)
-        
-            # Créez une nouvelle surface de la taille du carré
-        square = pygame.Surface((600, 300))
-
-            # Remplissez la surface avec la couleur blanche
-        square.fill((255, 255, 255))
-
-            # Définissez le niveau d'opacité (alpha) de la surface
-            # Notez que 0 est complètement transparent et 255 est complètement opaque
-        square.set_alpha(128)
-
-            # Dessinez la surface sur l'écran à la position (400, 300)
-        screen.blit(square, (300, 300))
 
         # Gestion de l'affichage des statistiques
 

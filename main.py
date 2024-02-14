@@ -661,6 +661,7 @@ def play() -> None:
                         
                         # Vérifier degat minimal et lancer attaque
                         degats_attaque = degats_attaque if degats_attaque > 1 else 1
+                        Stats.addDegatsTotaux(degats_attaque)
                         ennemi_actuel.recevoirCoup(degats_attaque) ; perso_actif.aJouer = True
                 
                 # Si bouton lancé capacité cliqué
@@ -671,6 +672,8 @@ def play() -> None:
                         # Aurore (Attaque plus puissante)
                         if isinstance(perso_actif, Aurore):                            
                             degats_aurore = aurore.CapaciteSpeciale(plateau, perso_actif, etape)
+                            Stats.addDegatsTotaux(degats_aurore)
+                            Stats.calculDegatsMoyens()
                             ennemi_actuel.recevoirCoup(degats_aurore) ; perso_actif.aJouer = True
                             
                         # Akane (Reduction degat)

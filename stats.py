@@ -5,6 +5,7 @@ class Stats:
         self.degats_moyens = 0
         self.meilleur_personnage = None
         self.pire_personnage = None
+        self.nb_attaques = 0 # Pour calculer les dégâts moyens, doit pas être retourner
         
     # Getters
         
@@ -27,10 +28,12 @@ class Stats:
     def setDegatsMoyens(self, degats_moyens):
         self.degats_moyens = degats_moyens
         
+    def addDegatsTotaux(self, degats):
+        self.degats_totaux += degats
+        self.nb_attaques += 1
         
     def calculDegatsMoyens(self, degats):
-        self.degats_total += degats
-        self.degats_moyens = self.degats_total / 4 # Mouais pas sûr, à voir plus tard
+        self.degats_moyens = self.degats_total / self.nb_attaques
         
     def setMeilleurPersonnage(self, meilleur_personnage): # On va devoir faire un truc pour comparer les personnages
         self.meilleur_personnage = meilleur_personnage
