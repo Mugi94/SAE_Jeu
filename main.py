@@ -850,6 +850,7 @@ def extra() -> None:
         for event in pygame.event.get():
             # Si on quitte, on quitte
             if event.type == pygame.QUIT:
+                Stats.saveStats()
                 pygame.quit()
                 sys.exit()
             
@@ -868,6 +869,8 @@ def main_menu() -> None:
     """Menu principal du jeu."""
     # Tant que l'on est dans l'écran d'accueil
     
+    if os.path.exists("stats.json"):
+        Stats.importStats()
     stats = Stats()
     
     while True:

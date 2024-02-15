@@ -1,3 +1,5 @@
+import json
+
 class Stats:
     def __init__(self):
         self.score = 0
@@ -6,6 +8,12 @@ class Stats:
         self.meilleur_personnage = None
         self.pire_personnage = None
         self.nb_attaques = 0 # Pour calculer les dégâts moyens, doit pas être retourner
+        self.degats_personnages = {
+            Akane: 0,
+            Aurore: 0,
+            Bob: 0,
+            Laura: 0
+            } # Dictionnaire qui va contenir les dégâts de chaque personnage
         
     # Getters
         
@@ -18,6 +26,23 @@ class Stats:
             "meilleur_personnage": self.meilleur_personnage,
             "pire_personnage": self.pire_personnage
         }
+        
+    def exportStats(self):
+        """Exporte en JSON les stats pour les sauvegarder dans un fichier
+        """
+        stats = self.getStats()
+        return json.dumps(stats)
+    
+    def importStats(self, stats):
+        """Importe les stats depuis un fichier JSON
+        """
+        stats = json.loads(stats)
+        self.score = stats["score"]
+        self.degats_moyens = stats["degats_moyens"]
+        self.degats_totaux = stats["degats_totaux"]
+        self.meilleur_personnage = stats["meilleur_personnage"]
+        self.pire_personnage = stats["pire_personnage"]
+        
         
         
     # Setters // Ça va être long et chiant
@@ -40,6 +65,15 @@ class Stats:
         
     def setPirePersonnage(self, pire_personnage): # On va devoir faire un truc pour comparer les personnages
         self.pire_personnage = pire_personnage
+        
+    def addDegatsPersonnages(self, personnage, degats):
+        self.degats_personnages[personnage] += degats
+        
+    def BestWorstCharacter(self):
+        """Fonction qui va permettre de déterminer le meilleur et le pire personnage en fonction des dégâts qu'ils ont infligés"""
+        self.meilleur_personnage = max(self.degats_personnages, key=self.degats_personnages.get)
+        self.pire_personnage = min(self.degats_personnages, key=self.degats_personnages.get)
+        
     
     
 
