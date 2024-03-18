@@ -5,5 +5,5 @@ class Capacite(ABC):
     """Interface Capacite"""
 
     @abstractmethod
-    def utiliser(self: Capacite, personnage, cible = None):
+    def utiliser(self, personnage, cible):
         pass

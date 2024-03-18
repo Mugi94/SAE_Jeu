@@ -9,10 +9,10 @@ class Stats:
         self.pire_personnage = None
         self.nb_attaques = 0 # Pour calculer les dégâts moyens, doit pas être retourner
         self.degats_personnages = {
-            Akane: 0,
-            Aurore: 0,
-            Bob: 0,
-            Laura: 0
+            "Akane": 0,
+            "Aurore": 0,
+            "Bob": 0,
+            "Laura": 0
             } # Dictionnaire qui va contenir les dégâts de chaque personnage
         
     # Getters
@@ -53,26 +53,28 @@ class Stats:
     def setDegatsMoyens(self, degats_moyens):
         self.degats_moyens = degats_moyens
         
+    def calculDegatsMoyens(self, degats):
+        self.degats_moyens = self.degats_total / self.nb_attaques
+        
     def addDegatsTotaux(self, degats):
         self.degats_totaux += degats
         self.nb_attaques += 1
-        
-    def calculDegatsMoyens(self, degats):
-        self.degats_moyens = self.degats_total / self.nb_attaques
+        self.calculDegatsMoyens() 
         
     def setMeilleurPersonnage(self, meilleur_personnage): # On va devoir faire un truc pour comparer les personnages
         self.meilleur_personnage = meilleur_personnage
         
     def setPirePersonnage(self, pire_personnage): # On va devoir faire un truc pour comparer les personnages
         self.pire_personnage = pire_personnage
-        
-    def addDegatsPersonnages(self, personnage, degats):
-        self.degats_personnages[personnage] += degats
-        
+    
     def BestWorstCharacter(self):
         """Fonction qui va permettre de déterminer le meilleur et le pire personnage en fonction des dégâts qu'ils ont infligés"""
         self.meilleur_personnage = max(self.degats_personnages, key=self.degats_personnages.get)
         self.pire_personnage = min(self.degats_personnages, key=self.degats_personnages.get)
+        
+    def addDegatsPersonnages(self, personnage, degats):
+        self.degats_personnages[personnage] += degats
+        self.BestWorstCharacter()
         
     
     
