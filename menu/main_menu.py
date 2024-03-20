@@ -34,7 +34,7 @@ def main_menu(screen):
         stats_button = Bouton(menu_button, (1050, 400), "STATS", text_font, "black", "White")
         quit_button = Bouton(menu_button, (640, 550), "QUITTER", text_font, "black", "White")
 
-        for button in [play_button, extra_button, quit_button]:
+        for button in [play_button, extra_button, quit_button, stats_button]:
             button.changeColor(mouse_pos)
             button.update(screen)
 

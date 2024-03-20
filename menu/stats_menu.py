@@ -2,6 +2,7 @@ from __future__ import annotations
 from bouton import Bouton
 import sys
 import pygame
+import constants as const
 
 # Screen resolution
 WIDTH, HEIGHT = 1280, 720
@@ -31,7 +32,7 @@ def transparent_surface(screen: pygame.Surface):
 def stats_menu(screen, stats) -> None:
     "Menu statistiques globales du jeu acessible depuis le menu principal"
 
-    background = pygame.image.load("img/menu_principal.jpg")
+    background = pygame.image.load(const.MENU_BG)
     title_font = pygame.font.SysFont("Helvetic", 75)
     text_font = pygame.font.SysFont("Helvetic", 50)
 

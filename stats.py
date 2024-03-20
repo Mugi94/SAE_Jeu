@@ -9,10 +9,13 @@ class Stats:
         self.pire_personnage = None
         self.nb_attaques = 0 # Pour calculer les dégâts moyens, doit pas être retourner
         self.degats_personnages = {
-            "Akane": 0,
-            "Aurore": 0,
-            "Bob": 0,
-            "Laura": 0
+            "Akane Kagari": 0,
+            "Aurore Thercieux": 0,
+            "Bob Bob": 0,
+            "Dr. Eliza de Minerve": 0,
+            "Erika Nishimura": 0,
+            "Laura Occideum": 0,
+            "William Occideum": 0
             } # Dictionnaire qui va contenir les dégâts de chaque personnage
         
     # Getters
@@ -53,8 +56,8 @@ class Stats:
     def setDegatsMoyens(self, degats_moyens):
         self.degats_moyens = degats_moyens
         
-    def calculDegatsMoyens(self, degats):
-        self.degats_moyens = self.degats_total / self.nb_attaques
+    def calculDegatsMoyens(self):
+        self.degats_moyens = self.degats_totaux / self.nb_attaques
         
     def addDegatsTotaux(self, degats):
         self.degats_totaux += degats

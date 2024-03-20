@@ -148,7 +148,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
                 action = joueur_actuel.choix_action(lancer_attaque, lancer_capacite)
                 if action == 1:
                     degats_joueur = joueur_actuel.personnage.lancerAttaque(ennemi, plateau, stage)
-                    stats.addDegatsPersonnage(joueur_actuel.personnage.nom, degats_joueur)
+                    stats.addDegatsPersonnages(joueur_actuel.personnage.nom, degats_joueur)
                     stats.addDegatsTotaux(degats_joueur)
                     
                 elif action == 2:
