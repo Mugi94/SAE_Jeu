@@ -49,6 +49,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
         ennemi = ennemis[ennemi_index]
         if ennemi.PV <= 0 and (not pause_entre_etape):
             pause_entre_etape = True
+            stats.addScore(ennemi.PV_max)
 
         # Afficher le jeu
         background = pygame.image.load(const.STAGES[stage])
@@ -97,6 +98,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if quitter.checkForInput(mouse_pos):
+                    stats.exportStats()
                     run = False
 
                 if reprendre.checkForInput(mouse_pos):
@@ -107,6 +109,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
             
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if quitter.checkForInput(mouse_pos):
+                    stats.exportStats()
                     run = False
 
                 if suivant.checkForInput(mouse_pos):

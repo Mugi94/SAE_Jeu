@@ -19,7 +19,7 @@ def main_menu(screen):
     text_font = pygame.font.SysFont("Helvetic", 50)
     
     if os.path.exists("stats.json"):
-        stats.importStats(stats)
+        stats.importStats("stats.json")
 
     while True:
 

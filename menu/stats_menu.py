@@ -65,6 +65,12 @@ def stats_menu(screen, stats) -> None:
                             text_font, 'black', 'white')
         stats_back.changeColor(stats_mouse_pos)
         stats_back.update(screen)
+        
+        stats_reset = Bouton(None, (1050, 650), 'Réinitialiser',
+                            text_font, 'black', 'white')
+        stats_reset.changeColor(stats_mouse_pos)
+        stats_reset.update(screen)
+        
         # -----------------------------------------------------------------------------------------
 
         # Gestion de l'affichage des statistiques
@@ -99,6 +105,12 @@ def stats_menu(screen, stats) -> None:
         screen.blit(pire_personnage_text, pire_personnage_rect)
 
         # -----------------------------------------------------------------------------------------
+        
+        
+        
+        
+        
+        # -----------------------------------------------------------------------------------------
 
         # gestion des evenements
         for event in pygame.event.get():
@@ -109,8 +121,12 @@ def stats_menu(screen, stats) -> None:
 
             # Si on clique sur la souris
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if stats_reset.checkForInput(stats_mouse_pos):
+                    stats.resetStats()
+                    run = False
                 if stats_back.checkForInput(stats_mouse_pos):
                     run = False
+
 
         # Met a jour la fenetre
         pygame.display.update()
