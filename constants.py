@@ -35,7 +35,7 @@ LIEU_PAS_CONTENT = f"{PATH}/img/lieux/lieupascontent.png"
 
 
 # Path to the buttons' images
-MENU_BUTTON = f"{PATH}/img/test.png"
+MENU_BUTTON = f"{PATH}/img/boutons/bouton_menu.png"
 BOUTON = f"{PATH}/img/boutons/jeubouton.png"
 BOUTON_CLIQUABLE = f"{PATH}/img/boutons/jeuboutoncliquable.png"
 BOUTON_EN_ATTENTE = f"{PATH}/img/boutons/jeuboutonattente.png"

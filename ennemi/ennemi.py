@@ -62,12 +62,12 @@ class Ennemi(ABC):
             self._PV = 0
 
     @abstractmethod
-    def lancerAttaque(self, plateau, cible) -> None:
+    def lancerAttaque(self, plateau, cible, lieu) -> None:
         pass
     
-    def attaqueCase(self, case):
+    def attaqueCase(self, case, plateau, lieu):
         for personnage in case.personnages:
-            personnage.recevoirCoup(self._ATK, self)
+            personnage.recevoirCoup(self._ATK, self, plateau, lieu)
     
     def draw(self, screen):
         game_font = SysFont("Helvetic", 30)
@@ -82,7 +82,7 @@ class Ennemi(ABC):
         pygame.draw.rect(screen, (255,136,0), (424, 144, (self._PV_max * 144) / 100, 25))
         pygame.draw.rect(screen, (0,204,204), (424, 144, taille_barre_vie, 25))
 
-        screen.blit(ennemi_image, (width*0.41, height*0.21))
+        screen.blit(ennemi_image, (width*0.41, height*0.26))
         screen.blit(ennemi_nom, ennemi_nom.get_rect(center=(width*0.5, height*0.22)))
 
     def __repr__(self: Ennemi) -> str: return str(self._nom)

@@ -30,6 +30,7 @@ class Personnage(ABC):
         self._capacite: dict = capacite
         self._images: dict = images
         self._position: int
+        self._est_protege: bool = False
 
     # --------- Getters / Setters ---------
     @property
@@ -44,8 +45,14 @@ class Personnage(ABC):
     @property
     def ATK(self: Personnage) -> int: return self._ATK
     
+    @ATK.setter
+    def ATK(self: Personnage, attaque) -> None: self._ATK = attaque
+
     @property
     def DEF(self: Personnage) -> int: return self._DEF
+    
+    @DEF.setter
+    def DEF(self: Personnage, defense) -> None: self._DEF = defense
     
     @property
     def affinite(self: Personnage) -> dict: return self._affinite
@@ -58,16 +65,22 @@ class Personnage(ABC):
     
     @PV.setter
     def PV(self: Personnage, pv: int) -> None:
-        self._PV = pv if pv <= self._PV_max else self._PV_max
+        self._PV = pv
 
     @property
     def position(self: Personnage) -> int: return self._position
 
     @position.setter
     def position(self: Personnage, position) -> None: self._position = position
+    
+    @property
+    def est_protege(self: Personnage) -> None: return self._est_protege
+    
+    @est_protege.setter
+    def est_protege(self: Personnage, protection) -> None: self._est_protege = protection
     # ------------------------------------
 
-    def recevoirCoup(self, dgts, attaquant) -> None:
+    def recevoirCoup(self, dgts, attaquant, plateau, lieu) -> None:
         """Méthode par défaut pour recevoir un coup"""
         degat = max(3, round(dgts * (1 - self._DEF / 100 * 0.5))) # Réduction de 50% de la défense
         self._PV -= degat
@@ -76,7 +89,6 @@ class Personnage(ABC):
 
     def lancerAttaque(self, cible, plateau, etape) -> None:
         """Méthode par défaut pour lancer une attaque"""
-        print(f"{self._nom} attaque {cible} !")
         degats = self._ATK
 
         # Bonus affinite
@@ -97,7 +109,7 @@ class Personnage(ABC):
         cible.recevoirCoup(degats)
         return degats
 
-    def lancerCapacite(self, cible):
+    def lancerCapacite(self, cible, plateau, lieu, personnages, ennemi, choix, degat):
         pass
 
     def __repr__(self: Personnage) -> str: return self._nom

@@ -12,25 +12,25 @@ class Lucifer(Ennemi):
     def __init__(self):
         super().__init__("Lucifer",
                          350, 350, 10, 10,
-                         f"{const.PATH}/img/ennemi/lucifer.png")
+                         f"{const.PATH}/img/ennemi/idk.png")
     
-    def lancerAttaque(self, plateau):
+    def lancerAttaque(self, plateau, lieu):
         personnage_cible = choice(plateau.personnages)
 
         # Attaquer la case du personnage cible
         case_cible = personnage_cible.position
-        self.attaqueCase(case_cible)
+        self.attaqueCase(case_cible, plateau, lieu)
 
         # Attaque la case de devant
         case_cible = personnage_cible.position + 1
         if case_cible > plateau.TAILLE:
             case_cible = 1
-        self.attaqueCase(case_cible)
+        self.attaqueCase(case_cible, plateau, lieu)
 
         # Attaque la case de derriere
         case_cible = personnage_cible.position - 1
         if case_cible < 1:
             case_cible = 16
-        self.attaqueCase(case_cible)
+        self.attaqueCase(case_cible, plateau, lieu)
 
         return 0

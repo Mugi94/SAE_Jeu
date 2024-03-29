@@ -91,10 +91,11 @@ class Stats:
         self.degats_moyens = self.degats_totaux / self.nb_attaques
         
     def addDegatsTotaux(self, degats):
-        self.degats_totaux += degats
-        self.nb_attaques += 1
-        self.calculDegatsMoyens()
-        self.addScore(degats) 
+        if degats is not None:
+            self.degats_totaux += degats
+            self.nb_attaques += 1
+            self.calculDegatsMoyens()
+            self.addScore(degats) 
         
     def setMeilleurPersonnage(self, meilleur_personnage): # On va devoir faire un truc pour comparer les personnages
         self.meilleur_personnage = meilleur_personnage
@@ -108,8 +109,9 @@ class Stats:
         self.pire_personnage = min(self.degats_personnages, key=self.degats_personnages.get)
         
     def addDegatsPersonnages(self, personnage, degats):
-        self.degats_personnages[personnage] += degats
-        self.BestWorstCharacter()
+        if degats is not None:
+            self.degats_personnages[personnage] += degats
+            self.BestWorstCharacter()
         
     
     

@@ -1,9 +1,8 @@
-from __future__ import annotations
-from joueur import Joueur
 from random import randint, choice
-import time
+from joueur import Joueur
+import pygame
 
-class Aleatoire(Joueur):  
+class Aleatoire(Joueur):
     def __init__(self, personnage):
         if personnage is not None:
             self._nom = personnage.nom
@@ -13,7 +12,9 @@ class Aleatoire(Joueur):
 
         self.de_lancer = False
         self.personnage_deplacer = False
+        self.action = 0
         self.action_effectuer = False
+        self.cooldown = personnage.capacite['temps_rechargement']
 
     @property
     def nom(self): return self._nom
@@ -25,22 +26,24 @@ class Aleatoire(Joueur):
     def nom(self, nom): self._nom = nom
     
     @personnage.setter
-    def personnage(self, personnage): self._personnage = personnage
+    def personnage(self, personnage): 
+        self._nom = personnage.nom
+        self._personnage = personnage
     
     def lancer_de(self, bouton):
         self.de_lancer = True
-        resultat_de = randint(1,6)
-        print(f"{self._nom} lance un dé et a fait {resultat_de} !")
-        return resultat_de
+        return randint(1,6)
     
     def choix_deplacement(self, choix_possible, plateau, position):
-        time.sleep(1)
+        pygame.time.wait(1000)
         self.personnage_deplacer = True
         return choice(choix_possible)
 
     def choix_action(self, bouton_attaque, bouton_capacite):
-        time.sleep(1)
+        pygame.time.wait(1000)
         self.action_effectuer = True
-        return choice([1])
-
-    def __repr__(self): return self._nom
+        return choice([1,2])
+    
+    def choix_capacite(self, plateau, personnages):
+        pygame.time.wait(1000)
+        return choice(list(personnages.keys()))

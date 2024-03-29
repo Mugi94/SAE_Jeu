@@ -14,8 +14,8 @@ class Ringo(Ennemi):
                          300, 300, 10, 10,
                          f"{const.PATH}/img/ennemi/ringo.png")
 
-    def lancerAttaque(self, plateau):
+    def lancerAttaque(self, plateau, lieu):
         perso_cible = choice(plateau.personnages)
         case_cible  = plateau.case(perso_cible.position)
-        self.attaqueCase(case_cible)
+        self.attaqueCase(case_cible, plateau, lieu)
         return 0

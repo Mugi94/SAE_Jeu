@@ -16,4 +16,3 @@ if __name__ == "__main__":
 
     # Close pygame
     pygame.quit()
-

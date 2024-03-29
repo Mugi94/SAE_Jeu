@@ -3,7 +3,6 @@
 # ---------------
 from __future__ import annotations
 from personnage import Personnage
-from capacite import Decharge
 
 import constants as const
 
@@ -15,17 +14,40 @@ class Aurore(Personnage):
                          {
                              "haute": [2],
                              "faible": [3]
-                         }, 
-                         
-                         {
-                            "nom": "Décharge"
                          },
-                         
+
+                         {
+                            "nom": "Railgun",
+                            "type": "Attaque",
+                            "description": "Lance une puissante décharge électrique à l'ennemi",
+                            "temps_rechargement": 3,
+                            "passive": False,
+                            "choix_necessaire": False,
+                            "active": False
+                         },
+
                          {
                              "carte": f"{const.PATH}/img/personnages/aurore/aurorecarte.png",
                              "carte_grise": f"{const.PATH}/img/personnages/aurore/aurorecartegrise.png",
                              "icone": f"{const.PATH}/img/personnages/aurore/aurore.png"
                          })
     
-    def lancerCapacite(self, cible):
-        self._capacite.utiliser(self, cible)
+    def lancerCapacite(self, cible, plateau, lieu, personnages, ennemi):
+        degats = self._ATK + (self._ATK * 0.5)
+
+        # Vérification bonus de case
+        if plateau.case(self._position).type == 'bonus':
+            degats += 3
+        elif plateau.case(self._position).type == 'malus':
+            degats -= 3
+        
+        # Verification bonus de lieu
+        if self._affinite['haute'] == lieu:
+            degats += 2
+        elif self._affinite['faible'] == lieu:
+            degats -= 2
+
+        degats = degats if degats > 1 else 1
+        
+        cible.recevoirCoup(degats)
+        return degats

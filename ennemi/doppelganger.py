@@ -14,10 +14,10 @@ class Doppelganger(Ennemi):
                          325, 325, 10, 10,
                          f"{const.PATH}/img/ennemi/doppelganger.png")
     
-    def lancerAttaque(self, plateau):
+    def lancerAttaque(self, plateau, lieu):
         perso_cible = choice(plateau.personnages)
         case_cible = plateau.case(perso_cible.position)
-        self.attaqueCase(case_cible)
+        self.attaqueCase(case_cible, plateau, lieu)
 
         for _ in range(4):
             num_case = randint(1, plateau.TAILLE)
@@ -25,6 +25,6 @@ class Doppelganger(Ennemi):
 
             if case.personnages != []:
                 if perso_cible not in case.personnages:
-                    self.attaqueCase(case)
+                    self.attaqueCase(case, plateau, lieu)
 
         return 0

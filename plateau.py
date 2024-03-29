@@ -23,6 +23,11 @@ class Case:
 
     @property
     def image(self): return self._image
+    
+    @type.setter
+    def type(self, type):
+        self._type = type
+        self._image = f"{const.PATH}/img/cases/case_{type}.png"
     # -----------------------------------------
 
     def placePersonnage(self, personnage):
@@ -117,7 +122,7 @@ class Plateau:
             affichage_case = load(self.case(i+1).image)
             case_position = ((i*taille_case) + 280, 0)
             screen.blit(affichage_case, case_position)
-            
+
             personnages = self.case(i+1).personnages
             if len(personnages) == 1:
                 position = (((i*144) + (280 + 144/4), 144/4))

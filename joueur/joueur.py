@@ -9,7 +9,9 @@ class Joueur:
 
         self.de_lancer = False
         self.personnage_deplacer = False
+        self.action = 0
         self.action_effectuer = False
+        self.cooldown = personnage.capacite['temps_rechargement']
 
     @property
     def nom(self): return self._nom
@@ -19,10 +21,10 @@ class Joueur:
 
     @nom.setter
     def nom(self, nom): self._nom = nom
-    
+
     @personnage.setter
     def personnage(self, personnage): self._personnage = personnage
-    
+
     def lancer_de(self, bouton):
         mouse_pos = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -32,7 +34,7 @@ class Joueur:
             resultat_de = randint(1,6)
             print(f"{self._nom} lance un dé et a fait {resultat_de} !")
             return resultat_de
-    
+
     def choix_deplacement(self, choix_possible, plateau, position):
         mouse_pos = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -51,11 +53,18 @@ class Joueur:
         click = pygame.mouse.get_pressed()
 
         if bouton_attaque.checkForInput(mouse_pos) and click[0] == 1:
-            self.action_effectuer = True
             return 1
-        
+
         if bouton_capacite.checkForInput(mouse_pos) and click[0] == 1:
-            self.action_effectuer = True
-            return 2
+            if not (self._personnage.capacite['passive'] or self._personnage.capacite['active']):
+                return 2
+
+    def choix_capacite(self, plateau, personnages):
+        mouse_pos = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        for personnage in personnages.keys():
+            if personnages[personnage].collidepoint(mouse_pos) and click[0] == 1:
+                return personnage
 
     def __repr__(self): return self._nom

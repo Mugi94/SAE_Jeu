@@ -3,114 +3,107 @@ from bouton import Bouton
 from joueur import Joueur, Aleatoire
 from personnage import *
 from jeu import lancer_jeu
+from random import choice
 import pygame
 import sys
 
 import constants as const
 
-def previous(indice, personnages):
-    indice -= 1
-    if indice < 0:
-        indice = len(personnages) - 1
-    return indice
+def personnage_aleatoire(liste_personnages, personnages_pris):
+    personnage = choice(liste_personnages)
+    
+    while personnage in personnages_pris:
+        personnage = choice(liste_personnages)
+    return personnage
 
-def next(indice, personnages):
-    indice += 1
-    if indice >= len(personnages):
-        indice = 0
-    return indice
+def lancement_partie_menu(screen, joueurs, personnages, stats):
+    width = screen.get_width()
+    height = screen.get_height()
 
-
-def lancement_partie_menu(screen, personnage, personnages, stats):
     title_font = pygame.font.Font(const.DEMOCRATICA_BOLD, 75)
-    text_font = pygame.font.SysFont("Helvetic", 50)
-    confirm_text_font = pygame.font.SysFont("Helvetic", 30)
-    next_img = pygame.transform.scale(pygame.image.load(const.BOUTON_SUIVANT), (30, 30))
-    previous_img = pygame.transform.scale(pygame.image.load(const.BOUTON_PRECEDENT), (30, 30))
+    text_font = pygame.font.SysFont("Helvetic", 40)
     background = pygame.image.load(const.MENU_LANCEMENT)
     
-    indices = [i for i in range(len(personnages))]
-    indices.remove(personnages.index(personnage))
-    indice_choix_2 = indices[0] ; indice_choix_3 = indices[1] ; indice_choix_4 = indices[2]
+    # Combler le manque de joueur
+    personnage_joueurs = []
+    for joueur in joueurs:
+        personnage_joueurs.append(joueur.personnage)
 
-    joueur1 = Joueur(personnage, "Joueur1")
-    joueur2 = Joueur(personnages[indice_choix_2], "Joueur2") ; joueur_2_pret = False
-    joueur3 = Joueur(personnages[indice_choix_3], "Joueur3") ; joueur_3_pret = False
-    joueur4 = Joueur(personnages[indice_choix_4], "Joueur4") ; joueur_4_pret = False
+    while len(joueurs) < 4:
+        personnage = personnage_aleatoire(personnages, personnage_joueurs)
+        personnage_joueurs.append(personnage)
+        joueurs.append(Aleatoire(personnage))
+    
 
-    personnages_pris = [personnage]
+    joueur1_pret = False
+    
+    if joueurs[1].__class__ is not Joueur:
+        joueur2_pret = True
+    else:
+        joueur2_pret = False
+
+    if joueurs[2].__class__ is not Joueur:
+        joueur3_pret = True
+    else:
+        joueur3_pret = False        
+
+    if joueurs[3].__class__ is not Joueur:
+        joueur4_pret = True
+    else:
+        joueur4_pret = False
+
 
     run = True
     while run:
         mouse_pos = pygame.mouse.get_pos()
         screen.blit(background, (0, 0))
-        
-        personnage_2 = personnages[indice_choix_2]
-        personnage_3 = personnages[indice_choix_3]
-        personnage_4 = personnages[indice_choix_4]
 
-        title = title_font.render("Votre équipe", True, (255,255,255)) ; title_rect = title.get_rect(center=(const.WIDTH*0.5, const.HEIGHT*0.14))
+        title = title_font.render("Votre équipe", True, (255,255,255)) ; title_rect = title.get_rect(center=(width*0.5, height*0.14))
         screen.blit(title, title_rect)
 
-        carte_personnage = pygame.image.load(personnage.images['carte'])
-        pygame.draw.rect(screen, "green", pygame.Rect((const.WIDTH*0.13-2.5, const.HEIGHT/3-2.5),(carte_personnage.get_width()+5, carte_personnage.get_height()+5)))
-        screen.blit(carte_personnage, (const.WIDTH*0.13, const.HEIGHT/3))
-        changer_personnage = Bouton(None, (const.WIDTH*0.2, const.HEIGHT*0.73), "Changer", confirm_text_font, "white", "black")
+        # - Afficher le contour des joueurs
+        positions = [(0.13, 0.33), (0.33, 0.33), (0.53, 0.33), (0.73, 0.33)]
+        for index, joueur_pret in enumerate([joueur1_pret, joueur2_pret, joueur3_pret, joueur4_pret]):
+            x, y = positions[index]
+            if joueur_pret:
+                pygame.draw.rect(screen, "green", pygame.Rect((width*x - 2.5, height*y - 2.5), (170, 270)))
+            else:
+                pygame.draw.rect(screen, "red", pygame.Rect((width*x - 2.5, height*y - 2.5), (170, 270)))
+
+        # - Affichage infos des joueurs
+        for index, joueur in enumerate(joueurs):
+            x, y = positions[index]
+            
+            nom_joueur = text_font.render(joueur.nom, True, (255,255,255)) ; nom_joueur_rect = nom_joueur.get_rect(center=(width*x + 83, height*0.29))
+            screen.blit(nom_joueur, nom_joueur_rect)
+        
+            personnage_joueur = pygame.image.load(joueur.personnage.images['carte'])
+            screen.blit(personnage_joueur, (width*x, height*y))
 
 
-        if personnage_2 in personnages_pris and not joueur_2_pret:
-            carte_personnage_2 = pygame.image.load(personnage_2.images['carte_grise'])
+        # - Boutons des joueurs
+        bouton_joueur1 = Bouton(None, (width*0.2, height*0.73), "Prêt", text_font, "white", "black")
+        
+        if joueurs[1].__class__ is not Joueur:
+            bouton_joueur2 = Bouton(None, (width*0.4, height*0.73), "Changer", text_font, "white", "black")
         else:
-            carte_personnage_2 = pygame.image.load(personnage_2.images['carte'])
-
-        if joueur_2_pret:
-            pygame.draw.rect(screen, "green", pygame.Rect((const.WIDTH*0.33-2.5, const.HEIGHT/3-2.5),(carte_personnage_2.get_width()+5, carte_personnage_2.get_height()+5)))
+            bouton_joueur2 = Bouton(None, (width*0.4, height*0.73), "Prêt", text_font, "white", "black")
+        
+        if joueurs[2].__class__ is not Joueur:
+            bouton_joueur3 = Bouton(None, (width*0.6, height*0.73), "Changer", text_font, "white", "black")
         else:
-            pygame.draw.rect(screen, "red", pygame.Rect((const.WIDTH*0.33-2.5, const.HEIGHT/3-2.5),(carte_personnage_2.get_width()+5, carte_personnage_2.get_height()+5)))
-        screen.blit(carte_personnage_2, (const.WIDTH*0.33, const.HEIGHT/3))
-        confirm_button_2 = Bouton(None, (const.WIDTH*0.4, const.HEIGHT*0.73), "Confirmer", confirm_text_font, "white", "black")
-        previous_button_2 = Bouton(previous_img, (const.WIDTH*0.34, const.HEIGHT*0.73), "", text_font, "white", "white")
-        next_button_2 = Bouton(next_img, (const.WIDTH*0.45, const.HEIGHT*0.73), "", text_font, "white", "white")
+            bouton_joueur3 = Bouton(None, (width*0.6, height*0.73), "Prêt", text_font, "white", "black")
 
-
-        if personnage_3 in personnages_pris and not joueur_3_pret:
-            carte_personnage_3 = pygame.image.load(personnage_3.images['carte_grise'])
+        if joueurs[3].__class__ is not Joueur:
+            bouton_joueur4 = Bouton(None, (width*0.8, height*0.73), "Changer", text_font, "white", "black")
         else:
-            carte_personnage_3 = pygame.image.load(personnage_3.images['carte'])
+            bouton_joueur4 = Bouton(None, (width*0.8, height*0.73), "Prêt", text_font, "white", "black")
 
-        if joueur_3_pret:
-            pygame.draw.rect(screen, "green", pygame.Rect((const.WIDTH*0.53-2.5, const.HEIGHT/3-2.5),(carte_personnage_2.get_width()+5, carte_personnage_2.get_height()+5)))
-        else:
-            pygame.draw.rect(screen, "red", pygame.Rect((const.WIDTH*0.53-2.5, const.HEIGHT/3-2.5),(carte_personnage_2.get_width()+5, carte_personnage_2.get_height()+5)))
-        screen.blit(carte_personnage_3, (const.WIDTH*0.53, const.HEIGHT/3))
-        confirm_button_3 = Bouton(None, (const.WIDTH*0.6, const.HEIGHT*0.73), "Confirmer", confirm_text_font, "white", "black")
-        previous_button_3 = Bouton(previous_img, (const.WIDTH*0.54, const.HEIGHT*0.73), "", text_font, "white", "white")
-        next_button_3 = Bouton(next_img, (const.WIDTH*0.65, const.HEIGHT*0.73), "", text_font, "white", "white")
+        bouton_lancement = Bouton(None, (width*0.5, height*0.9), "Lancer partie", text_font, "white", "black")
 
-        if personnage_4 in personnages_pris and not joueur_4_pret:
-            carte_personnage_4 = pygame.image.load(personnage_4.images['carte_grise'])
-        else:
-            carte_personnage_4 = pygame.image.load(personnage_4.images['carte'])
-
-        if joueur_4_pret:
-            pygame.draw.rect(screen, "green", pygame.Rect((const.WIDTH*0.73-2.5, const.HEIGHT/3-2.5),(carte_personnage_2.get_width()+5, carte_personnage_2.get_height()+5)))
-        else:
-            pygame.draw.rect(screen, "red", pygame.Rect((const.WIDTH*0.73-2.5, const.HEIGHT/3-2.5),(carte_personnage_2.get_width()+5, carte_personnage_2.get_height()+5)))
-        screen.blit(carte_personnage_4, (const.WIDTH*0.73, const.HEIGHT/3))
-        confirm_button_4 = Bouton(None, (const.WIDTH*0.8, const.HEIGHT*0.73), "Confirmer", confirm_text_font, "white", "black")
-        previous_button_4 = Bouton(previous_img, (const.WIDTH*0.74, const.HEIGHT*0.73), "", text_font, "white", "white")
-        next_button_4 = Bouton(next_img, (const.WIDTH*0.85, const.HEIGHT*0.73), "", text_font, "white", "white")
-
-        launch_button = Bouton(None, (const.WIDTH*0.5, const.HEIGHT*0.9), "Lancer partie", text_font, "white", "black")
-
-        for button in [launch_button, changer_personnage,
-                       confirm_button_2, confirm_button_3, confirm_button_4,
-                       previous_button_2, previous_button_3, previous_button_4,
-                       next_button_2, next_button_3, next_button_4]:
-
-            button.changeColor(mouse_pos)
-            button.update(screen)
-
+        for bouton in [bouton_joueur1, bouton_joueur2, bouton_joueur3, bouton_joueur4, bouton_lancement]:
+            bouton.changeColor(mouse_pos)
+            bouton.update(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -118,53 +111,48 @@ def lancement_partie_menu(screen, personnage, personnages, stats):
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if changer_personnage.checkForInput(mouse_pos):
-                    run = False
-                
-                if previous_button_2.checkForInput(mouse_pos) and not joueur_2_pret:
-                    indice_choix_2 = previous(indice_choix_2, personnages)
-                    joueur2.personnage = personnages[indice_choix_2]
+                if bouton_joueur1.checkForInput(mouse_pos):
+                    if not joueur1_pret:
+                        joueur1_pret = True
+                    else:
+                        joueur1_pret = False
 
-                if next_button_2.checkForInput(mouse_pos) and not joueur_2_pret:
-                    indice_choix_2 = next(indice_choix_2, personnages)
-                    joueur2.personnage = personnages[indice_choix_2]
+                if bouton_joueur2.checkForInput(mouse_pos):
+                    if joueurs[1].__class__ is not Joueur:
+                        personnage_joueurs.remove(joueurs[1].personnage)
+                        joueurs[1].personnage = personnage_aleatoire(personnages, personnage_joueurs)
+                        personnage_joueurs.append(joueurs[1].personnage)
+                    else:
+                        if not joueur2_pret:
+                            joueur2_pret = True
+                        else:
+                            joueur2_pret = False
 
-                if confirm_button_2.checkForInput(mouse_pos):
-                    if not joueur_2_pret and joueur2.personnage not in personnages_pris:
-                        personnages_pris.append(personnage_2)
-                        joueur_2_pret = True
+                if bouton_joueur3.checkForInput(mouse_pos):
+                    if joueurs[2].__class__ is not Joueur:
+                        personnage_joueurs.remove(joueurs[2].personnage)
+                        joueurs[2].personnage = personnage_aleatoire(personnages, personnage_joueurs)
+                        personnage_joueurs.append(joueurs[2].personnage)
+                    else:
+                        if not joueur3_pret:
+                            joueur3_pret = True
+                        else:
+                            joueur3_pret = False
 
+                if bouton_joueur4.checkForInput(mouse_pos):
+                    if joueurs[3].__class__ is not Joueur:
+                        personnage_joueurs.remove(joueurs[3].personnage)
+                        joueurs[3].personnage = personnage_aleatoire(personnages, personnage_joueurs)
+                        personnage_joueurs.append(joueurs[3].personnage)
+                    else:
+                        if not joueur4_pret:
+                            joueur4_pret = True
+                        else:
+                            joueur4_pret = False
 
-                if previous_button_3.checkForInput(mouse_pos) and not joueur_3_pret:
-                    indice_choix_3 = previous(indice_choix_3, personnages)
-                    joueur3.personnage = personnages[indice_choix_3]
-
-                if next_button_3.checkForInput(mouse_pos) and not joueur_3_pret:
-                    indice_choix_3 = next(indice_choix_3, personnages)
-                    joueur3.personnage = personnages[indice_choix_3]
-
-                if confirm_button_3.checkForInput(mouse_pos):
-                    if not joueur_3_pret and joueur3.personnage not in personnages_pris:
-                        personnages_pris.append(personnage_3)
-                        joueur_3_pret = True
-
-
-                if previous_button_4.checkForInput(mouse_pos) and not joueur_4_pret:
-                    indice_choix_4 = previous(indice_choix_4, personnages)
-                    joueur4.personnage = personnages[indice_choix_4]
-
-                if next_button_4.checkForInput(mouse_pos) and not joueur_4_pret:
-                    indice_choix_4 = next(indice_choix_4, personnages)
-                    joueur4.personnage = personnages[indice_choix_4]
-
-                if confirm_button_4.checkForInput(mouse_pos):
-                    if not joueur_4_pret and joueur4.personnage not in personnages_pris:
-                        personnages_pris.append(personnage_4)
-                        joueur_4_pret = True
-
-                if launch_button.checkForInput(mouse_pos):
-                    if joueur_2_pret == True and joueur_3_pret == True and joueur_4_pret == True:
-                        lancer_jeu(screen, [joueur1, joueur2, joueur3, joueur4], stats)
+                if bouton_lancement.checkForInput(mouse_pos):
+                    if all([joueur1_pret, joueur2_pret, joueur3_pret, joueur4_pret]):
+                        lancer_jeu(screen, joueurs, stats)
                         run = False
 
         pygame.display.update()
