@@ -256,7 +256,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
 
             # Attaque de l'ennemi si tout les joueurs ont joué, puis tour suivant
             if all(joueur.action_effectuer for joueur in joueurs):
-                ennemi.lancerAttaque(plateau, stage)
+                ennemi.lancerAttaque(screen, plateau, stage)
                 for joueur in joueurs:
                     joueur.de_lancer = False
                     joueur.personnage_deplacer = False

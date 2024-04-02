@@ -26,6 +26,7 @@ NEUTRE = f"{PATH}/img/cases/case_neutre.png"
 BONUS = f"{PATH}/img/cases/case_bonus.png"
 MALUS = f"{PATH}/img/cases/case_malus.png"
 CASE_CLIQUABLE = f"{PATH}/img/cases/case_cliquable.png"
+CASE_ATTAQUE = f"{PATH}/img/cases/case_attaque.png"
 
 
 # Path to the affinities' logos 
