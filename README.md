@@ -1,10 +1,3 @@
-# SAE - Jeu
-- Minet Lorik
-- David Pauline
-- Cailliau Ethann
-- Pruvost Simon
-
-
 # La Cité Académique
 ## Présentation
 > Le jeu se déroule dans l’univers de la série “A Certain Scientific Railgun”.
