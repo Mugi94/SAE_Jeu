@@ -14,7 +14,7 @@ from afficher_cartes import afficher_cartes
 
 import constants as const
 
-def lancer_jeu(screen, joueurs, stats, stage = 3):
+def lancer_jeu(screen, joueurs, stats, stage = 1):
     width = screen.get_width()
     height = screen.get_height()
 
