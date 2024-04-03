@@ -67,7 +67,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
         # Afficher joueur actuel
         texte_joueur = game_font.render(f"Au tour de {joueur_actuel.nom}", True, (0, 0, 0))
         personnage_image = pygame.image.load(joueur_actuel.personnage.images['icone'])
-        screen.blit(texte_joueur, texte_joueur.get_rect(center=(width*0.42, height*0.26)))
+        screen.blit(texte_joueur, texte_joueur.get_rect(topleft=(width*0.34, height*0.24)))
         screen.blit(personnage_image, (width*0.34, height*0.28))
 
         # Boutons en jeu
