@@ -11,10 +11,10 @@ class Eliza(Personnage):
     
     def __init__(self):
         super().__init__("Dr. Eliza de Minerve",
-                         100, 100, 10, 6, 
+                         100, 100, 5, 5, 
                          {
-                             "haute": [2],
-                             "faible": [3]
+                             "haute": [4],
+                             "faible": []
                          }, 
 
                          {

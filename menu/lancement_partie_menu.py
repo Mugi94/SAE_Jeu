@@ -1,6 +1,6 @@
 from __future__ import annotations
 from bouton import Bouton
-from joueur import Joueur, Aleatoire
+from joueur import Joueur, Aleatoire, Basique
 from personnage import *
 from jeu import lancer_jeu
 from random import choice
@@ -32,7 +32,7 @@ def lancement_partie_menu(screen, joueurs, personnages, stats):
     while len(joueurs) < 4:
         personnage = personnage_aleatoire(personnages, personnage_joueurs)
         personnage_joueurs.append(personnage)
-        joueurs.append(Aleatoire(personnage))
+        joueurs.append(Basique(personnage))
     
 
     joueur1_pret = False

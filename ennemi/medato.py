@@ -24,7 +24,10 @@ class Medato(Ennemi):
         cases_attaque = [case_cible]
         
         self.attaqueCase(case_cible, plateau, lieu)
-        screen.blit(case_attaque, plateau.zone_cliquable[perso_cible.position])
+        
+        position_cible = perso_cible.position
+        if position_cible == 0 : position_cible = 16
+        screen.blit(case_attaque, plateau.zone_cliquable[position_cible])
 
         for autre_personnage in plateau.personnages:
             if not isinstance(autre_personnage, type(perso_cible)):
@@ -33,5 +36,7 @@ class Medato(Ennemi):
                 if case_personnage not in cases_attaque:
                     cases_attaque.append(case_personnage)
                     autre_personnage.recevoirCoup(round(degat*0.3), self, plateau, lieu)
-                    screen.blit(case_attaque, plateau.zone_cliquable[autre_personnage.position])
+                    position_cible = autre_personnage.position
+                    if position_cible == 0 : position_cible = 16
+                    screen.blit(case_attaque, plateau.zone_cliquable[position_cible])
         return 0

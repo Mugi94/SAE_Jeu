@@ -10,8 +10,11 @@ class Erika(Personnage):
     
     def __init__(self):
         super().__init__("Erika Nishimura",
-                         100, 100, 10, 6, 
-                         {"haute": [2], "faible": [3]},
+                         100, 100, 6, 5, 
+                         {
+                             "haute": [1],
+                             "faible": [2,4]
+                         },
 
                          {
                             "nom": "Materialize",

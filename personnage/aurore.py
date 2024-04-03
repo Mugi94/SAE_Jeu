@@ -12,8 +12,8 @@ class Aurore(Personnage):
         super().__init__("Aurore Thercieux",
                          100, 100, 10, 6, 
                          {
-                             "haute": [2],
-                             "faible": [3]
+                             "haute": [1,4],
+                             "faible": [2]
                          },
 
                          {

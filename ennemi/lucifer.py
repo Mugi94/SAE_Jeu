@@ -39,7 +39,17 @@ class Lucifer(Ennemi):
         case_cible = plateau.case(numero_case)
         self.attaqueCase(case_cible, plateau, lieu)
         
-        screen.blit(case_attaque, plateau.zone_cliquable[personnage_cible.position - 1])
-        screen.blit(case_attaque, plateau.zone_cliquable[personnage_cible.position])
-        screen.blit(case_attaque, plateau.zone_cliquable[personnage_cible.position + 1])
+        
+        position_cible_derriere = personnage_cible.position - 1
+        if position_cible_derriere < 1 : position_cible_derriere = 16
+        
+        position_cible = personnage_cible.position
+        if position_cible == 0 : position_cible = 16
+        
+        position_cible_devant = personnage_cible.position + 1
+        if position_cible_devant > 16 : position_cible_devant = 1
+        
+        screen.blit(case_attaque, plateau.zone_cliquable[position_cible_derriere])
+        screen.blit(case_attaque, plateau.zone_cliquable[position_cible])
+        screen.blit(case_attaque, plateau.zone_cliquable[position_cible_devant])
         return 0

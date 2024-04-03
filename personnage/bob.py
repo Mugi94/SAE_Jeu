@@ -10,10 +10,10 @@ class Bob(Personnage):
 
     def __init__(self):
         super().__init__("Bob Bob",
-                         100, 100, 4, 7, 
+                         100, 100, 3, 8, 
                          {
                              "haute": [1],
-                             "faible": [4]
+                             "faible": [3]
                          },
 
                          {

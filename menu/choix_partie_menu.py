@@ -1,11 +1,10 @@
-from __future__ import annotations
-from bouton import Bouton
-from menu.choix_personnage_menu import choix_personnage_menu
 import pygame
 import sys
-
+import socket
 import constants as const
-
+from bouton import Bouton
+from menu.choix_personnage_menu import choix_personnage_menu
+import tkinter as tk
 
 def choix_nombre_joueurs(screen, stats):
     width = screen.get_width()
@@ -63,6 +62,93 @@ def choix_nombre_joueurs(screen, stats):
 
         pygame.display.update()
 
+def on_multijoueur_click():
+    ip = '127.0.0.1'
+    port = 12345
+    multit(ip, port)
+
+def multit(ip, port):
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            # Tentative de connexion au serveur
+            s.connect((ip, port))
+            print("Connexion réussie au serveur sur", ip, ":", port)
+            # Envoi d'un signal au serveur pour indiquer que le client est prêt à jouer
+            s.sendall(b"ready_to_play")
+    except socket.error as e:
+        print("Impossible de se connecter au serveur:", e)
+
+    # Lancer le client de chat dans une fenêtre séparée
+    root = tk.Tk()
+    chat_client = ChatClient(root)
+    root.mainloop()
+
+import socket
+import tkinter as tk
+import threading
+
+class ChatClient:
+    def __init__(self, master, ip, port):
+        self.master = master
+        self.master.title("Jeu Multijoueur")
+        self.ip = ip
+        self.port = port
+        
+        # Création du champ de saisie
+        self.entry = tk.Entry(master)
+        self.entry.pack(fill=tk.X, padx=5, pady=5)
+        self.entry.bind("<Return>", self.send_message)
+        
+        # Création de la zone de texte
+        self.text_area = tk.Text(master)
+        self.text_area.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        
+        # Initialisation du socket
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect_to_server()
+
+    def connect_to_server(self):
+        try:
+            self.socket.connect((self.ip, self.port))
+            print("Connexion réussie au serveur sur", self.ip, ":", self.port)
+            # Envoi d'un signal au serveur pour indiquer que le client est prêt à jouer
+            self.socket.sendall(b"ready_to_play")
+            # Démarrer le thread pour recevoir les messages
+            receive_thread = threading.Thread(target=self.receive_messages)
+            receive_thread.start()
+        except socket.error as e:
+            print("Impossible de se connecter au serveur:", e)
+
+    def send_message(self, event=None):
+        message = self.entry.get()
+        if message:
+            try:
+                self.socket.sendall(message.encode())
+                self.entry.delete(0, tk.END)
+                # Ajouter le message envoyé à la zone de texte
+                self.text_area.insert(tk.END, f"Vous: {message}\n")
+                self.text_area.see(tk.END)  # Faire défiler vers le bas pour afficher le nouveau message
+            except socket.error as e:
+                print("Erreur lors de l'envoi du message:", e)
+
+    def receive_messages(self):
+        while True:
+            try:
+                data = self.socket.recv(1024)
+                if data:
+                    # Ajouter le message reçu à la zone de texte
+                    self.text_area.insert(tk.END, f"Adversaire: {data.decode()}\n")
+                    self.text_area.see(tk.END)  # Faire défiler vers le bas pour afficher le nouveau message
+            except socket.error as e:
+                print("Erreur lors de la réception du message:", e)
+
+def on_multijoueur_click():
+    ip = '127.0.0.1'
+    port = 12345
+    root = tk.Tk()
+    chat_client = ChatClient(root, ip, port)
+    root.mainloop()
+
 
 def choix_partie_menu(screen, stats):
     menu_button = pygame.image.load(const.MENU_BUTTON)
@@ -108,6 +194,8 @@ def choix_partie_menu(screen, stats):
                     run = False
 
                 if multi_button.checkForInput(mouse_pos):
+                    # on_multijoueur_click()
+                    # ChatClient()
                     choix_nombre_joueurs(screen, stats)
                     run = False
 
@@ -115,3 +203,9 @@ def choix_partie_menu(screen, stats):
                     run = False
 
         pygame.display.update()
+
+if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode((const.WIDTH, const.HEIGHT))
+    stats = None
+    choix_partie_menu(screen, stats)

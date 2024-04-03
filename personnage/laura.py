@@ -10,9 +10,9 @@ class Laura(Personnage):
     
     def __init__(self):
         super().__init__("Laura Occideum",
-                         100, 100, 4, 7, 
+                         100, 100, 5, 6, 
                          {
-                             "haute": [3],
+                             "haute": [3, 2],
                              "faible": [1]
                          },
                          

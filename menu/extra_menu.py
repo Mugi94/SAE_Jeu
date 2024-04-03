@@ -2,7 +2,7 @@ from __future__ import annotations
 from bouton import Bouton
 import pygame
 import sys
-
+import socket
 from menu.stats_menu import stats_menu
 
 import constants as const
@@ -105,3 +105,6 @@ def extra_menu(screen, stats):
                     run = False
 
         pygame.display.update()
+        
+
+

@@ -10,7 +10,7 @@ class Akane(Personnage):
 
     def __init__(self):
         super().__init__("Akane Kagari",
-                         100, 100, 4, 7, 
+                         100, 100, 5, 7, 
                          {
                              "haute": [1],
                              "faible": [4]

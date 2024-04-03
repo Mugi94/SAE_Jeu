@@ -14,7 +14,7 @@ from afficher_cartes import afficher_cartes
 
 import constants as const
 
-def lancer_jeu(screen, joueurs, stats, stage = 1):
+def lancer_jeu(screen, joueurs, stats, stage = 3):
     width = screen.get_width()
     height = screen.get_height()
 
@@ -206,7 +206,7 @@ def lancer_jeu(screen, joueurs, stats, stage = 1):
                     stats.addDegatsTotaux(degats_joueur)
 
                 elif joueur_actuel.action == 2 and joueur_actuel.cooldown == joueur_actuel.personnage.capacite['temps_rechargement']:
-                    if not joueur_actuel.personnage.capacite['choix_necessaire'] or not joueur_actuel.personnage.capacite['passive']:
+                    if not joueur_actuel.personnage.capacite['choix_necessaire'] and not joueur_actuel.personnage.capacite['passive']:
                         degats_joueur = joueur_actuel.personnage.lancerCapacite(ennemi, plateau, stage, cartes_personnage, ennemi)
                         joueur_actuel.action_effectuer = True
                         joueur_actuel.cooldown = -1

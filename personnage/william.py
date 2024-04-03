@@ -10,7 +10,7 @@ class William(Personnage):
     
     def __init__(self):
         super().__init__("William Occideum",
-                         100, 100, 10, 6, 
+                         100, 100, 4, 7, 
                          {
                              "haute": [2],
                              "faible": [3]

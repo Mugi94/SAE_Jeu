@@ -10,10 +10,10 @@ class AgentK(Personnage):
     
     def __init__(self):
         super().__init__('D1 | Agenf "K"',
-                         100, 100, 10, 6, 
+                         100, 100, 3, 10, 
                          {
-                             "haute": [2],
-                             "faible": [3]
+                             "haute": [2,3],
+                             "faible": [1,4]
                          },
 
                          {
