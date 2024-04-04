@@ -71,8 +71,10 @@ class Stats:
             "Dr. Eliza de Minerve": 0,
             "Erika Nishimura": 0,
             "Laura Occideum": 0,
-            "William Occideum": 0
-            }
+            "William Occideum": 0,
+            'E2 | Agenf "F"': 0,
+            'D1 | Agenf "K"': 0
+        }
         
 
         
